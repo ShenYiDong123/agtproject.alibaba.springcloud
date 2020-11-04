@@ -1,0 +1,107 @@
+server:
+  port: 8080
+  servlet:
+      context-path: /mpic
+      session:
+        #超时时间，单位分钟
+        timeout: 30
+
+spring:
+  servlet:
+      multipart:
+        max-file-size: 100MB
+        max-request-size: 500MB
+
+  datasource:
+    url: jdbc:mysql://192.168.1.16:3306/gi__AgtProject?useUnicode=true&useSSL=false&characterEncoding=utf8
+    username: root
+    password: yongdao123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 3
+      min-idle: 1
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runsMillis: 60000
+      min-evictable-idle-timeMillis: 300000
+      validation-query: select 'x' FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+      max-pool-prepared-statement-per-connection-size: 20
+    filters: stat,wall,log4j2
+    connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    use-global-data-source-stat: true
+
+  #redis配置
+  redis:
+    host: 192.168.1.12
+    port: 5010
+    password: ydkj#2019#987654321
+    timeout: 10000
+    jedis:
+      pool:
+        max-active: 80
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+
+#mybatis-plus配置
+mybatis-plus:
+  # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
+  # 如果是放在resource目录 classpath:/mapper/*/*Mapper.xml
+  mapper-locations: classpath:/mapper/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  type-aliases-package: cn.agtsci.modules.entity
+  # 支持统配符 * 或者 ; 分割
+#  type-enums-package: cn.agtsci.commons.enums
+#  type-handlers-package: com.pci.commons.mybatis.handler
+  global-config:
+    db-config:
+      #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+      id-type: 3
+      #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+      #  field-strategy: 24
+      #驼峰下划线转换
+      table-underline: true
+      #db-column-underline: true
+      #mp2.3+ 全局表前缀 mp_
+      #table-prefix: zlp_
+      #数据库大写下划线转换
+      #capital-mode: true
+      # Sequence序列接口实现类配置
+      #key-generator: com.baomidou.mybatisplus.incrementer.OracleKeyGenerator
+      #逻辑删除配置（下面3个配置）
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+    #刷新mapper 调试神器typeEnumsPackage
+    refresh: true
+    #sql-injector: com.baomidou.mybatisplus.mapper.LogicSqlInjector
+    #自定义填充策略接口实现
+    #meta-object-handler: com.pci.mics.handler.MyMetaObjectHandler
+  configuration:
+    #配置返回数据库(column下划线命名&&返回java实体是驼峰命名)，自动匹配无需as（没开启这个，SQL需要写as： select user_id as userId）
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    #配置JdbcTypeForNull, oracle数据库必须配置
+    #jdbc-type-for-null: 'null'
+
+#swagger2相关配置
+swagger2:
+  enable: true
+  host: localhost:8080
+  basePackage: cn.agtsci.modules
+  apiInfo:
+    title: mpic2.0
+    description: http://www.ydkj.com
+    termsOfServiceUrl: http://www.ydkj.com
+    version: 1.0
+    license:
+    licenseUrl:
+    contact:
+      url: http://www.ydkj.com
+      name: ydkj
+      email: ydkj@pcitech.com
